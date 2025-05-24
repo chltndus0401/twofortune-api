@@ -5,16 +5,21 @@ dotenv.config();
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export default async function handler(req, res) {
+  // CORS 헤더 설정
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
+  // 프리플라이트(OPTIONS) 요청 처리
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
+
+  // POST 외 요청은 405 에러
   if (req.method !== "POST") {
-  return res.status(405).json({ error: "Method not allowed" });
+    return res.status(405).json({ error: "Method not allowed" });
   }
+
   const { name1, birth1, name2, birth2 } = req.body;
 
   if (!name1 || !birth1 || !name2 || !birth2) {
@@ -49,11 +54,9 @@ export default async function handler(req, res) {
       },
     });
 
-    res.status(200).json({ answer: result.text });
+    return res.status(200).json({ answer: result.text });
   } catch (err) {
     console.error(err);
-    res.status(500).json({
-      error: "Gemini API 오류 발생",
-    });
+    return res.status(500).json({ error: "Gemini API 오류 발생" });
   }
 }

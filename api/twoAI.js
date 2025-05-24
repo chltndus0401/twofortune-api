@@ -12,7 +12,9 @@ export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
-
+  if (req.method !== "POST") {
+  return res.status(405).json({ error: "Method not allowed" });
+  }
   const { name1, birth1, name2, birth2 } = req.body;
 
   if (!name1 || !birth1 || !name2 || !birth2) {

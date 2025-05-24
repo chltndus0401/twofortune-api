@@ -5,7 +5,6 @@ dotenv.config();
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export default async function handler(req, res) {
-  // CORS 헤더 설정
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -13,11 +12,6 @@ export default async function handler(req, res) {
   // 프리플라이트(OPTIONS) 요청 처리
   if (req.method === "OPTIONS") {
     return res.status(200).end();
-  }
-
-  // POST 외 요청은 405 에러
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
   }
 
   const { name1, birth1, name2, birth2 } = req.body;

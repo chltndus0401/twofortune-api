@@ -11,5 +11,10 @@
   "description": "",
   "dependencies": {
     "express": "^5.1.0"
-  }
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.19"
+  },
+  "type": "module"
 }
+

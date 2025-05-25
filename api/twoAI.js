@@ -5,12 +5,13 @@ dotenv.config();
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export default async function handler(req, res) {
-  // CORS 헤더 설정 (모든 응답에 공통 적용)
-  res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
+  // CORS 설정
+  res.setHeader("Access-Control-Allow-Origin", "https://chltndus0401.github.io");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Access-Control-Allow-Credentials", "true");
-  
+
+  // 프리플라이트 요청 처리
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
@@ -52,7 +53,6 @@ export default async function handler(req, res) {
       },
     });
 
-    
     const answer = result.candidates?.[0]?.output || result.text || "응답을 받지 못했습니다.";
 
     res.status(200).json({ answer });
